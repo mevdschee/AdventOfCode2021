@@ -17,8 +17,8 @@ namespace part2
                 int previousSum = -1, currentSum;
                 while ((line = reader.ReadLine()) != null) {
                     int j = (i+1)%numbers.Length; 
-                    numbers[j] = int.Parse(line);
                     int currentSum = numbers.Sum();
+                    numbers[j] = int.Parse(line);
                     if (numbers[i]!=-1 && numbers[j]>numbers[i]) {
                         result += 1;
                     }
