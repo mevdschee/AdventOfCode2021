@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -11,18 +12,18 @@ namespace part2
             int result = 0;
             using (StreamReader reader = new StreamReader("input"))
             {
+                var numbers = new List<int>();
                 string line;
-                int[] numbers = new int[3]{ -1, -1, -1};
-                int i = 0;
-                int previousSum = -1, currentSum;
                 while ((line = reader.ReadLine()) != null) {
-                    int j = (i+1)%numbers.Length; 
-                    int currentSum = numbers.Sum();
-                    numbers[j] = int.Parse(line);
-                    if (numbers[i]!=-1 && numbers[j]>numbers[i]) {
-                        result += 1;
+                    int previousSum = numbers.Sum();
+                    numbers.Add(int.Parse(line));
+                    if (numbers.Count>3) {
+                        numbers.RemoveAt(0);
+                        int currentSum = numbers.Sum();
+                        if (currentSum>previousSum) {
+                            result += 1;
+                        }
                     }
-                    i = j;
                 }
             }
             Console.WriteLine(result);
