@@ -7,7 +7,7 @@ namespace part1
     {
         static void Main(string[] args)
         {
-            int x = 0, y = 0;
+            int position = 0, depth = 0;
             using (StreamReader reader = new StreamReader("input"))
             {
                 string line;
@@ -16,18 +16,18 @@ namespace part1
                     var distance = int.Parse(parts[1]);
                     switch(parts[0]){
                         case "forward":
-                            x += distance;
+                            position += distance;
                             break;
                         case "down":
-                            y -= distance;
+                            depth += distance;
                             break;
                         case "up":
-                            y += distance;
+                            depth -= distance;
                             break;
                     } 
                 }
             }
-            Console.WriteLine(x*(-1*y));
+            Console.WriteLine(position*depth);
         }
     }
 }
