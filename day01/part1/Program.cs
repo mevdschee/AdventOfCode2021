@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace part1
+namespace Program
 {
     class Program
     {
@@ -11,10 +11,12 @@ namespace part1
             using (StreamReader reader = new StreamReader("input"))
             {
                 string line;
-                int previousNumber=-1,currentNumber;
-                while ((line = reader.ReadLine()) != null) {
+                int previousNumber = -1, currentNumber;
+                while ((line = reader.ReadLine()) != null)
+                {
                     currentNumber = int.Parse(line);
-                    if (previousNumber!=-1 && currentNumber>previousNumber) {
+                    if (previousNumber != -1 && currentNumber > previousNumber)
+                    {
                         result += 1;
                     }
                     previousNumber = currentNumber;

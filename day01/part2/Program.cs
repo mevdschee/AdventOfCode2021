@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace part2
+namespace Program
 {
     class Program
     {
@@ -14,13 +14,16 @@ namespace part2
             {
                 var numbers = new List<int>();
                 string line;
-                while ((line = reader.ReadLine()) != null) {
+                while ((line = reader.ReadLine()) != null)
+                {
                     int previousSum = numbers.Sum();
                     numbers.Add(int.Parse(line));
-                    if (numbers.Count>3) {
+                    if (numbers.Count > 3)
+                    {
                         numbers.RemoveAt(0);
                         int currentSum = numbers.Sum();
-                        if (currentSum>previousSum) {
+                        if (currentSum > previousSum)
+                        {
                             result += 1;
                         }
                     }

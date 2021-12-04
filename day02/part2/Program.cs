@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace part1
+namespace Program
 {
     class Program
     {
@@ -11,13 +11,15 @@ namespace part1
             using (StreamReader reader = new StreamReader("input"))
             {
                 string line;
-                while ((line = reader.ReadLine()) != null) {
+                while ((line = reader.ReadLine()) != null)
+                {
                     var parts = line.Split(' ');
                     var distance = int.Parse(parts[1]);
-                    switch(parts[0]){
+                    switch (parts[0])
+                    {
                         case "forward":
                             position += distance;
-                            depth += aim*distance;
+                            depth += aim * distance;
                             break;
                         case "down":
                             aim += distance;
@@ -25,10 +27,10 @@ namespace part1
                         case "up":
                             aim -= distance;
                             break;
-                    } 
+                    }
                 }
             }
-            Console.WriteLine(position*depth);
+            Console.WriteLine(position * depth);
         }
     }
 }
