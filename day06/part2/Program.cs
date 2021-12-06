@@ -34,12 +34,11 @@ namespace Program
                 }
                 counts[6] += counts[-1];
                 counts[8] = counts[-1];
-                counts[-1] = 0;
             }
             long result = 0;
-            foreach (var item in counts)
+            for (var i = 0; i <= 8; i++)
             {
-                result += item.Value;
+                result += counts[i];
             }
             Console.WriteLine(result);
         }
