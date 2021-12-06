@@ -18,30 +18,30 @@ namespace Program
                     lines.Add(line);
                 }
             }
-            var fish = new List<int>();
+            var counts = new Dictionary<int, long>();
             foreach (var num in lines[0].Split(','))
             {
-                fish.Add(int.Parse(num));
+                var number = int.Parse(num);
+                var count = counts.GetValueOrDefault(number, 0);
+                counts[number] = count + 1;
             }
-            var days = 80;
+            var days = 256;
             for (var day = 0; day < days; day++)
             {
-                var count = fish.Count;
-                for (var i = 0; i < count; i++)
+                for (var i = 0; i <= 8; i++)
                 {
-                    switch (fish[i])
-                    {
-                        case 0:
-                            fish[i] = 6;
-                            fish.Add(8);
-                            break;
-                        default:
-                            fish[i] -= 1;
-                            break;
-                    }
+                    counts[i - 1] = counts.GetValueOrDefault(i, 0);
                 }
+                counts[6] += counts[-1];
+                counts[8] = counts[-1];
+                counts[-1] = 0;
             }
-            Console.WriteLine(fish.Count);
+            long result = 0;
+            foreach (var item in counts)
+            {
+                result += item.Value;
+            }
+            Console.WriteLine(result);
         }
     }
 }
