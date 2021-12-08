@@ -35,14 +35,14 @@ namespace Program
             };
             var knownLengths = new Dictionary<int, int>
             {
-                {2, 1},
-                {3, 7},
+                {2, 1}, // two segments make number 1
+                {3, 7}, 
                 {4, 4},
                 {7, 8},
             };
             var knownFrequencies = new Dictionary<int, char>
             {
-                {6, 'b'},
+                {6, 'b'}, // numbers 0-9 have 6 times segment b
                 {4, 'e'},
                 {9, 'f'},
             };
@@ -50,11 +50,31 @@ namespace Program
             foreach (var line in lines)
             {
                 var parts = line.Split(" | ", 2);
+                // count the frequencies in the first part of the string (before the pipe)
+                var frequencies = new Dictionary<char, int>();
+                foreach (var number in parts[0].Split(' '))
+                {
+                    foreach (var c in number)
+                    {
+                        frequencies[c] = frequencies.GetValueOrDefault(c, 0) + 1;
+                    }
+                }
+                // create a segments dictionary holding the mapping options
                 var segments = new Dictionary<char, string>();
                 foreach (var segment in numbers[8])
                 {
-                    segments[segment] = numbers[8];
+                    var frequency = frequencies[segment];
+                    if (knownFrequencies.ContainsKey(frequency))
+                    {
+                        var onlyOption = knownFrequencies[frequency];
+                        segments[segment] = new string(onlyOption, 1);
+                    }
+                    else
+                    {
+                        segments[segment] = numbers[8];
+                    }
                 }
+                // walk over each number ruling out segment mappings based on known lengths
                 foreach (var number in parts[0].Split(' '))
                 {
                     foreach (var knownLength in knownLengths)
@@ -74,23 +94,8 @@ namespace Program
                         }
                     }
                 }
-                var frequencies = new Dictionary<char, int>();
-                foreach (var number in parts[0].Split(' '))
-                {
-                    foreach (var c in number)
-                    {
-                        frequencies[c] = frequencies.GetValueOrDefault(c, 0) + 1;
-                    }
-                }
-                foreach (var frequency in frequencies)
-                {
-                    if (knownFrequencies.ContainsKey(frequency.Value))
-                    {
-                        var segment = knownFrequencies[frequency.Value];
-                        segments[frequency.Key] = "" + segment;
-                    }
-                }
-                for (var i = 0; i < 8; i++)
+                // walk max 7 times over each segment mapping to see whether they can be reduced
+                for (var i = 0; i < numbers[8].Length; i++)
                 {
                     foreach (var value in segments.Values)
                     {
@@ -106,35 +111,32 @@ namespace Program
                         }
                     }
                 }
+                // the mapping is found, now store it in a dictionary
                 var mapping = new Dictionary<char, char>();
-                foreach (var item in segments) 
+                foreach (var item in segments)
                 {
                     mapping[item.Key] = item.Value[0];
                 }
-                var digits = new List<int>();
+                // walk over the second part (after the pipe) and match the mapped digits
+                var digits = "";
                 foreach (var number in parts[1].Split(' '))
                 {
                     var characters = number.ToCharArray();
-                    for (var i=0; i<characters.Length; i++)
+                    for (var i = 0; i < characters.Length; i++)
                     {
                         characters[i] = mapping[characters[i]];
                     }
                     Array.Sort(characters);
                     var sorted = new string(characters);
-                    for(var n=0;n<numbers.Count;n++) {
+                    for (var n = 0; n < numbers.Count; n++)
+                    {
                         if (sorted == numbers[n])
                         {
-                            digits.Add(n);
+                            digits += n;
                         }
                     }
                 }
-                var power = 1;
-                digits.Reverse();
-                foreach (var digit in digits)
-                {
-                    result += digit * power;
-                    power*=10;
-                }
+                result += int.Parse(digits);
             }
             Console.WriteLine(result);
         }
