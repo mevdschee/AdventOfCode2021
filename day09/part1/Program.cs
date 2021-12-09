@@ -50,6 +50,10 @@ namespace Program
                             {
                                 continue;
                             }
+                            if (dx != 0 && dy != 0)
+                            {
+                                continue;
+                            }
                             if (nx == x && ny == y)
                             {
                                 continue;
