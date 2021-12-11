@@ -96,10 +96,10 @@ namespace Program
                 }
                 partCounts.Add(part,count);
             }
-            Console.WriteLine(BFS("",0,0,missing,20,partCounts));
+            Console.WriteLine(Search("",0,0,missing,20,partCounts));
         }
 
-        private static string BFS(string path, int depth, int count, int missing, int presents, Dictionary<string,int> partCounts)
+        private static string Search(string path, int depth, int count, int missing, int presents, Dictionary<string,int> partCounts)
         {
             if (depth>presents) {
                 return "";
@@ -121,7 +121,7 @@ namespace Program
                 {
                     continue;
                 }
-                result = BFS(path+part[0],depth+1,count+partCounts[part],missing,presents,partCounts);
+                result = Search(path+part[0],depth+1,count+partCounts[part],missing,presents,partCounts);
                 if (result.Length>0)
                 {
                     break;
