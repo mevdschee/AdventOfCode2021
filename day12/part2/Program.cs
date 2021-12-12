@@ -39,11 +39,11 @@ namespace Program
             var path = new List<string>();
             path.Add("start");
             visits["start"] = 2;
-            var twice = false;
-            Console.WriteLine(Search(path, visits, twice, vectors).Count);
+            var maxVisits = 2;
+            Console.WriteLine(Search(path, visits, maxVisits, vectors).Count);
         }
 
-        private static Dictionary<List<string>, bool> Search(List<string> path, Dictionary<string, int> visits, bool twice, Dictionary<(string, string), bool> vectors)
+        private static Dictionary<List<string>, bool> Search(List<string> path, Dictionary<string, int> visits, int maxVisits, Dictionary<(string, string), bool> vectors)
         {
             var resultPaths = new Dictionary<List<string>, bool>();
             var last = path[path.Count - 1];
@@ -59,23 +59,24 @@ namespace Program
                 {
                     continue;
                 }
-                if (visits.GetValueOrDefault(to,0) > (twice?0:1))
+                if (visits.GetValueOrDefault(to,0) >= maxVisits)
                 {
                     continue;
                 }
                 var newPath = new List<string>(path);
                 newPath.Add(to);
                 var newVisits = visits;
-                var newTwice = twice;
+                var newMaxVisits = maxVisits;
                 if (newVisits.ContainsKey(to))
                 { 
                     newVisits = new Dictionary<string, int>(visits);
-                    if (newVisits[to]==1) {
-                        newTwice = true;
-                    }
                     newVisits[to] += 1;
+                    if (newVisits[to] == 2)
+                    {
+                        newMaxVisits = 1;
+                    }
                 }
-                var foundPaths = Search(newPath, newVisits, newTwice, vectors);
+                var foundPaths = Search(newPath, newVisits, newMaxVisits, vectors);
                 foreach (var foundPath in foundPaths.Keys)
                 {
                     resultPaths[foundPath] = true;
