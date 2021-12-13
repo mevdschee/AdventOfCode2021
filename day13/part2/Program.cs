@@ -85,9 +85,15 @@ namespace Program
                         height = Math.Max(pos, height - 1 - pos);
                     }
                 }
-                break;
             }
-            Console.WriteLine(field.Count);
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    Console.Write(field.ContainsKey((x,y))?'#':' ');
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
