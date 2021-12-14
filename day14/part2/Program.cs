@@ -40,15 +40,14 @@ namespace Program
                 var count = polymer.GetValueOrDefault(key, 0);
                 polymer[key] = count + 1;
             }
-            for (var step = 0; step < 4; step++)
+            for (var step = 0; step < 40; step++)
             {
-                Console.WriteLine(step);
                 var newPolymer = new Dictionary<(char, char), long>();
                 foreach (var pair in polymer.Keys)
                 {
                     foreach (var (first, second) in rules.Keys)
                     {
-                        if (pair[0] == first && pair[1] == second)
+                        if (pair.Item1 == first && pair.Item2 == second)
                         {
                             var insert = rules[(first, second)];
                             var count1 = newPolymer.GetValueOrDefault((first, insert), 0);
@@ -58,13 +57,15 @@ namespace Program
                         }
                     }
                 }
+                polymer = newPolymer;
             }
             var counts = new Dictionary<char, long>();
             foreach (var pair in polymer.Keys)
             {
-                var count = counts.GetValueOrDefault(pair[0], 0);
-                counts[pair[0]] = count + polymer[pair];
+                var count = counts.GetValueOrDefault(pair.Item1, 0);
+                counts[pair.Item1] = count + polymer[pair];
             }
+            counts[polymerString[polymerString.Length - 1]] += 1;
             var frequencies = new List<long>(counts.Values);
             frequencies.Sort();
             Console.WriteLine(frequencies[frequencies.Count - 1] - frequencies[0]);
