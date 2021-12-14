@@ -18,12 +18,12 @@ namespace Program
                 }
             }
             var rules = new Dictionary<(char, char), char>();
-            var polymer = "";
+            var polymerString = "";
             foreach (var line in lines)
             {
-                if (polymer == "")
+                if (polymerString == "")
                 {
-                    polymer = line;
+                    polymerString = line;
                     continue;
                 }
                 if (line == "")
@@ -33,29 +33,37 @@ namespace Program
                 var words = line.Split(" -> ");
                 rules.Add((words[0][0], words[0][1]), words[1][0]);
             }
-            for (var step = 0; step < 10; step++)
+            var polymer = new Dictionary<(char, char), long>();
+            for (var i = 0; i < polymerString.Length - 1; i++)
             {
-                //Console.WriteLine(step);
-                var newPolymer = "";
-                for (var i = 0; i < polymer.Length - 1; i++)
+                var key = (polymerString[i], polymerString[i + 1]);
+                var count = polymer.GetValueOrDefault(key, 0);
+                polymer[key] = count + 1;
+            }
+            for (var step = 0; step < 4; step++)
+            {
+                Console.WriteLine(step);
+                var newPolymer = new Dictionary<(char, char), long>();
+                foreach (var pair in polymer.Keys)
                 {
-                    newPolymer += polymer[i];
                     foreach (var (first, second) in rules.Keys)
                     {
-                        if (polymer[i] == first && polymer[i + 1] == second)
+                        if (pair[0] == first && pair[1] == second)
                         {
-                            newPolymer += rules[(first, second)];
+                            var insert = rules[(first, second)];
+                            var count1 = newPolymer.GetValueOrDefault((first, insert), 0);
+                            newPolymer[(first, insert)] = count1 + polymer[pair];
+                            var count2 = newPolymer.GetValueOrDefault((insert, second), 0);
+                            newPolymer[(insert, second)] = count2 + polymer[pair];
                         }
                     }
                 }
-                newPolymer += polymer[polymer.Length - 1];
-                polymer = newPolymer;
             }
             var counts = new Dictionary<char, long>();
-            for (var i = 0; i < polymer.Length; i++)
+            foreach (var pair in polymer.Keys)
             {
-                var count = counts.GetValueOrDefault(polymer[i], 0);
-                counts[polymer[i]] = count + 1;
+                var count = counts.GetValueOrDefault(pair[0], 0);
+                counts[pair[0]] = count + polymer[pair];
             }
             var frequencies = new List<long>(counts.Values);
             frequencies.Sort();
