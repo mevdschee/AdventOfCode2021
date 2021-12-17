@@ -43,7 +43,6 @@ namespace Program
         static int SumVersion(byte[] bytes, int bitpos, int bitlen, int packets, List<int> versions)
         {
             var p = bitpos;
-            var sum = 0;
             while (p < bitpos + bitlen)
             {
                 //Console.WriteLine("packet p={0}", p);
