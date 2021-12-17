@@ -31,7 +31,7 @@ namespace Program
                 target[p] = (min, max);
             }
             var search = 1000;
-            var resultmaxpy = 0;
+            var result = 0;
             for (var x = 0; x < search; x++)
             {
                 for (var y = -search; y < search; y++)
@@ -61,11 +61,11 @@ namespace Program
                     }
                     if (found)
                     {
-                        resultmaxpy = Math.Max(resultmaxpy, maxpy);
+                        result = Math.Max(result, maxpy);
                     }
                 }
             }
-            Console.WriteLine(resultmaxpy);
+            Console.WriteLine(result);
         }
 
     }
