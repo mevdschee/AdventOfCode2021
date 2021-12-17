@@ -22,14 +22,14 @@ namespace Program
                 }
             }
             var bytes = Convert.FromHexString(lines[0]);
-            for (var by = 0; by < bytes.Length; by++)
-            {
-                for (var bi = 0; bi < 8; bi++)
-                {
-                    Console.Write((bytes[by] & (1 << (7 - bi))) > 0 ? '1' : '0');
-                }
-            }
-            Console.WriteLine();
+            //for (var by = 0; by < bytes.Length; by++)
+            //{
+            //    for (var bi = 0; bi < 8; bi++)
+            //    {
+            //        Console.Write((bytes[by] & (1 << (7 - bi))) > 0 ? '1' : '0');
+            //    }
+            //}
+            //Console.WriteLine();
             var versions = new List<int>();
             SumVersion(bytes, 0, bytes.Length * 8, 1, versions);
             var sum = 0;
@@ -46,13 +46,13 @@ namespace Program
             var sum = 0;
             while (p < bitpos + bitlen)
             {
-                Console.WriteLine("packet p={0}", p);
+                //Console.WriteLine("packet p={0}", p);
 
 
                 var version = Read(bytes, p, 3); p += 3;
                 versions.Add(version);
                 var type = Read(bytes, p, 3); p += 3;
-                Console.WriteLine("type {0} p={1}", type, p - 3);
+                //Console.WriteLine("type {0} p={1}", type, p - 3);
                 if (type == 4)
                 {
                     var literal = 0;
@@ -60,13 +60,13 @@ namespace Program
                     do
                     {
                         var nibble = Read(bytes, p + 1, 4); p += 5;
-                        Console.WriteLine("-nibble {0}", nibble);
-                        literal = nibble | (literal << (nibbles.Count * 4));
-                        Console.WriteLine("-literal {0} p={1}", literal, p - 5);
+                        //Console.WriteLine("-nibble {0}", nibble);
+                        literal = nibble | (literal << 4);
+                        //Console.WriteLine("-literal {0} p={1}", literal, p - 5);
                         nibbles.Add(nibble);
                     }
                     while (Read(bytes, p - 5, 1) == 1);
-                    Console.WriteLine("literal {0}", literal);
+                    //Console.WriteLine("literal {0}", literal);
                 }
                 else
                 {
@@ -74,12 +74,12 @@ namespace Program
                     var length = Read(bytes, p, lenlen); p += lenlen;
                     if (lenlen == 11)
                     {
-                        Console.WriteLine("packet length {0}", length);
+                        //Console.WriteLine("packet length {0}", length);
                         p += SumVersion(bytes, p, bitlen, length, versions);
                     }
                     else
                     {
-                        Console.WriteLine("bit length {0}", length);
+                        //Console.WriteLine("bit length {0}", length);
                         p += SumVersion(bytes, p, length, -1, versions);
                     }
                 }
