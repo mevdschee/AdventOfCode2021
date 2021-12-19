@@ -296,18 +296,18 @@ namespace Program
             var result = 0;
             foreach (var line1 in lines)
             {
-                var pair1 = Pair.Read(new StringReader(line1));
                 foreach (var line2 in lines)
                 {
-                    var pair2 = Pair.Read(new StringReader(line2));
                     if (line1 != line2)
                     {
+                        var pair1 = Pair.Read(new StringReader(line1));
+                        var pair2 = Pair.Read(new StringReader(line2));
                         var sum = pair1.Add(pair2);
                         sum.Reduce();
                         var magnitude = sum.Magnitude();
                         if (magnitude > result)
                         {
-                            Console.WriteLine("{0} {1} {2}", line1, line2, sum);
+                            //Console.WriteLine("{0} {1} {2}", line1, line2, sum);
                             result = Math.Max(result, magnitude);
                         }
                     }
