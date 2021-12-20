@@ -10,7 +10,7 @@ namespace Program
         static void Main(string[] args)
         {
             var lines = new List<string>();
-            using (StreamReader reader = new StreamReader("input.test"))
+            using (StreamReader reader = new StreamReader("input"))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -21,7 +21,7 @@ namespace Program
             var lookup = new Dictionary<int, bool>();
             var field = new Dictionary<(int, int), bool>();
             var width = lines[2].Length;
-            var height = lines.Count - 3;
+            var height = lines.Count - 2;
             var py = 0;
             foreach (var line in lines)
             {
@@ -45,7 +45,7 @@ namespace Program
                     }
                     else
                     {
-                        field[(x, py)] = true;
+                        field[(x, py)] = false;
                     }
                 }
                 py += 1;
@@ -70,27 +70,29 @@ namespace Program
                             }
                         }
                         var index = Convert.ToInt32(bin, 2);
-                        if (lookup[index])
-                        {
-                            newField[(x, y)] = true;
-                        }
+                        newField[(x, y)] = lookup[index];
                     }
                 }
                 field = newField;
                 printField(field, width, height, step);
             }
-            Console.WriteLine(field.Count);
+            var result = 0;
+            foreach (var b in field.Values)
+            {
+                result += b ? 1 : 0;
+            }
+            Console.WriteLine(result);
             // input.test1 = 5326
         }
 
         static void printField(Dictionary<(int, int), bool> field, int width, int height, int step)
         {
-            for (var y = 0 - step - 4; y <= height + step + 4; y++)
+            for (var y = 0 - step; y < height + step; y++)
             {
                 var line = "";
-                for (var x = 0 - step - 4; x <= width + step + 4; x++)
+                for (var x = 0 - step; x < width + step; x++)
                 {
-                    line += field.ContainsKey((x, y)) ? '#' : '.';
+                    line += field[(x, y)] ? '#' : '.';
                 }
                 Console.WriteLine(line);
             }
