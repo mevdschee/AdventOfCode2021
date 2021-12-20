@@ -64,7 +64,8 @@ namespace Program
                             {
                                 if (!field.ContainsKey((x + dx, y + dy)))
                                 {
-                                    field[(x + dx, y + dy)] = (lookup[0] && (step % 2 == 0));
+                                    var missing = lookup[0] && (step % 2 == 0);
+                                    field[(x + dx, y + dy)] = missing;
                                 }
                                 bin += field[(x + dx, y + dy)] ? '1' : '0';
                             }
