@@ -80,6 +80,7 @@ namespace Program
                 printField(field, width, height, step);
             }
             Console.WriteLine(field.Count);
+            // input.test1 = 5326
         }
 
         static void printField(Dictionary<(int, int), bool> field, int width, int height, int step)
