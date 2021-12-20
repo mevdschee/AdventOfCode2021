@@ -50,7 +50,7 @@ namespace Program
                 }
                 py += 1;
             }
-            for (var step = 1; step <= 2; step++)
+            for (var step = 1; step <= 50; step++)
             {
                 var newField = new Dictionary<(int, int), bool>();
                 for (var y = 0 - step; y < height + step; y++)
@@ -82,5 +82,6 @@ namespace Program
             }
             Console.WriteLine(result);
         }
+
     }
 }
