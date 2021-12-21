@@ -46,7 +46,6 @@ namespace Program
                     }
                     positions[player] = 1 + (positions[player] - 1) % 10;
                     scores[player] += positions[player];
-                    Console.WriteLine("roll {0} player {1} score {2}", rolls, player, scores[player]);
                     if (scores[player] >= 1000)
                     {
                         won = true;
