@@ -10,7 +10,7 @@ namespace Program
         static void Main(string[] args)
         {
             var lines = new List<string>();
-            using (StreamReader reader = new StreamReader("input.test"))
+            using (StreamReader reader = new StreamReader("input"))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
