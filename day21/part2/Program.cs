@@ -57,21 +57,22 @@ namespace Program
             int[] frequencies = { 1, 3, 6, 7, 6, 3, 1 };
             for (var rollTotal = 3; rollTotal <= 9; rollTotal++)
             {
+                var frequency = frequencies[rollTotal - 3];
                 if (player == 0)
                 {
                     int[] newPositions = { (positions[0] + rollTotal) % 10, positions[1] };
                     int[] newScore = { scores[0] + newPositions[0] + 1, scores[1] };
                     var newWins = Play(nextPlayer, newPositions, newScore);
-                    wins[0] += frequencies[rollTotal - 3] * newWins[0];
-                    wins[1] += frequencies[rollTotal - 3] * newWins[1];
+                    wins[0] += frequency * newWins[0];
+                    wins[1] += frequency * newWins[1];
                 }
                 else
                 {
                     int[] newPositions = { positions[0], (positions[1] + rollTotal) % 10 };
                     int[] newScore = { scores[0], scores[1] + newPositions[1] + 1, };
                     var newWins = Play(nextPlayer, newPositions, newScore);
-                    wins[0] += frequencies[rollTotal - 3] * newWins[0];
-                    wins[1] += frequencies[rollTotal - 3] * newWins[1];
+                    wins[0] += frequency * newWins[0];
+                    wins[1] += frequency * newWins[1];
                 }
             }
             return wins;
