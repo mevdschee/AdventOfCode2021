@@ -109,20 +109,16 @@ namespace Program
                 steps.Add((status, new Cuboid(x1, x2, y1, y2, z1, z2)));
             }
             var cuboids = new List<Cuboid>();
-            foreach (var (status, cuboid) in steps)
+            foreach (var (stepStatus, stepCuboid) in steps)
             {
                 var newCuboids = new List<Cuboid>();
-                foreach (var other in cuboids)
+                foreach (var cuboid in cuboids)
                 {
-                    var add = other.Subtract(cuboid);
-                    foreach (var c in add)
-                    {
-                        newCuboids.Add(c);
-                    }
+                    newCuboids.AddRange(cuboid.Subtract(stepCuboid));
                 }
-                if (status == "on")
+                if (stepStatus == "on")
                 {
-                    newCuboids.Add(cuboid);
+                    newCuboids.Add(stepCuboid);
                 }
                 cuboids = newCuboids;
             }
